@@ -9,8 +9,10 @@
 
 `Packages/manifest.json` に追記します。版はタグで固定します。
 
+まだ形が定まっていないので 0.x です。作りが落ち着くまで、細かい版でも中身が変わります。
+
 ```json
-"tokyo.omicro.color-detection": "https://github.com/tichise/color-detection.git#v2.0.0"
+"tokyo.omicro.color-detection": "https://github.com/tichise/color-detection.git#v0.1.0"
 ```
 
 このパッケージ自体に手を入れる間は、手元のフォルダを直接見る形に切り替えると楽です。
