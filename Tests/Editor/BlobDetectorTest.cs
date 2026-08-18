@@ -364,6 +364,71 @@ namespace Omicro.ColorDetection.Tests
         }
 
         // ------------------------------------------------------------------
+        // 端の条件
+        // ------------------------------------------------------------------
+
+        [Test]
+        public void 間引く量が画像より大きければ見つからない()
+        {
+            // 4x4の画像をstep=8で見ると、走査する点が1つも残らない
+            var texture = MakeTexture(4, 4, new RectInt(0, 0, 4, 4));
+
+            BlobDetector.Result result =
+                BlobDetector.Detect(texture, Lower, Upper, minArea: 1, step: 8);
+
+            Assert.That(result.found, Is.False, "走査する点が無いのに見つかっている");
+
+            Object.DestroyImmediate(texture);
+        }
+
+        [Test]
+        public void 左隣ともつながりを見る()
+        {
+            // 右下がりの階段状に置くと、左隣へたどる経路を通る。
+            // 右隣だけを見る実装では1つにつながらない
+            var texture = Fill(48, 48, OutOfRange);
+            var pixels = texture.GetPixels32();
+
+            for (int i = 0; i < 12; i++)
+            {
+                for (int y = 0; y < 6; y++)
+                {
+                    for (int x = 0; x < 6; x++)
+                    {
+                        int px = 30 - i * 2 + x;
+                        int py = 8 + i * 2 + y;
+                        pixels[py * 48 + px] = InRangeBlue;
+                    }
+                }
+            }
+
+            texture.SetPixels32(pixels);
+            texture.Apply(false, false);
+
+            BlobDetector.Result result =
+                BlobDetector.Detect(texture, Lower, Upper, minArea: 1, step: 1);
+
+            Assert.That(result.found, Is.True, "階段状のかたまりが見つかっていない");
+            Assert.That(result.area, Is.GreaterThan(100),
+                "左隣をたどれず、かたまりが分断されている");
+
+            Object.DestroyImmediate(texture);
+        }
+
+        [Test]
+        public void 色相が負になる色でも正しく求める()
+        {
+            // マゼンタは色相300度付近。計算の途中で負になる経路を通る
+            BlobDetector.RgbToHsv(new Color32(255, 0, 255, 255),
+                out float h, out float s, out float v);
+
+            Assert.That(h, Is.EqualTo(150f).Within(0.5f),
+                "マゼンタの色相が300度(OpenCV目盛りで150)になっていない");
+            Assert.That(s, Is.EqualTo(255f).Within(0.5f));
+            Assert.That(v, Is.EqualTo(255f).Within(0.5f));
+        }
+
+        // ------------------------------------------------------------------
         // 補助
         // ------------------------------------------------------------------
 

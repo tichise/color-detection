@@ -1,0 +1,21 @@
+{
+    "name": "Omicro.ColorDetection.PlayModeTests",
+    "rootNamespace": "Omicro.ColorDetection.Tests",
+    "references": [
+        "Omicro.ColorDetection",
+        "UnityEngine.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

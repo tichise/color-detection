@@ -68,7 +68,7 @@ namespace Omicro.ColorDetection
             {
                 if (outTexture != null)
                 {
-                    Object.Destroy(outTexture);
+                    Release(outTexture);
                 }
 
                 outTexture = new Texture2D(source.width, source.height,
@@ -78,6 +78,23 @@ namespace Omicro.ColorDetection
             outTexture.SetPixels32(s_Buffer);
             outTexture.Apply(false, false);
             return outTexture;
+        }
+
+        /// <summary>
+        /// 使わなくなった画像を捨てる。
+        ///
+        /// 再生していないEditorでは Destroy が使えず、エラーになる。
+        /// Editorの道具やテストからも呼べるように、ここで振り分ける
+        /// </summary>
+        private static void Release(Texture2D texture)
+        {
+            if (Application.isPlaying)
+            {
+                Object.Destroy(texture);
+                return;
+            }
+
+            Object.DestroyImmediate(texture);
         }
     }
 }
