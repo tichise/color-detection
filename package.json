@@ -1,0 +1,17 @@
+{
+  "name": "tokyo.omicro.color-detection",
+  "displayName": "Color Detection",
+  "version": "1.0.0",
+  "description": "カメラ画像から、指定した色の範囲にあたる部分を取り出すための部品。作品固有の設定は持たない。",
+  "unity": "6000.0",
+  "author": {
+    "name": "tichise",
+    "url": "https://github.com/tichise"
+  },
+  "keywords": [
+    "color",
+    "detection",
+    "ar"
+  ],
+  "dependencies": {}
+}
