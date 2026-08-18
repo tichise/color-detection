@@ -6,9 +6,6 @@ namespace Tichise.ColorDetection.Tests
 {
     /// <summary>
     /// 色のかたまりを見つける処理(BlobDetector)のテスト。
-    ///
-    /// もとはOpenCVのネイティブ実装で、macOSのEditorでは動かせなかった。
-    /// C#だけの実装にしたのでEditorで直接確かめられる。
     /// </summary>
     public class BlobDetectorTest
     {
@@ -138,7 +135,7 @@ namespace Tichise.ColorDetection.Tests
         }
 
         [Test]
-        public void RGBからHSVへの変換がOpenCVの目盛りになっている()
+        public void RGBからHSVへの変換が想定の目盛りになっている()
         {
             // 赤は色相0
             BlobDetector.RgbToHsv(new Color32(255, 0, 0, 255),
@@ -254,18 +251,40 @@ namespace Tichise.ColorDetection.Tests
         [Test]
         public void 間引いても離れたかたまり同士をつなげない()
         {
-            // 間を4画素あけて2つの四角を置く。step=4で走査すると、
-            // 間の画素を確かめずにつなぐ実装では1つの大きな塊になってしまう
-            var texture = MakeTexture(64, 64,
-                new RectInt(8, 8, 8, 8),
-                new RectInt(40, 8, 8, 8));
+            // 離れた2つの四角。間引き(step=4)でつないでしまう実装では、
+            // 1つの大きな塊になり、中心が間(35.5付近)に来てしまう。
+            //
+            // 四角を16画素にしてあるのは、間引くと1辺が4点になり、
+            // 内側の画素が残るため。8画素だと1辺2点になって内側が消え、
+            // 「薄い線は拾わない」の判定で落ちてしまう
+            var texture = MakeTexture(80, 80,
+                new RectInt(8, 8, 16, 16),
+                new RectInt(56, 8, 16, 16));
 
             BlobDetector.Result result =
                 BlobDetector.Detect(texture, Lower, Upper, minArea: 1, step: 4);
 
             Assert.That(result.found, Is.True, "どちらの四角も見つかっていない");
-            Assert.That(result.center.x, Is.Not.EqualTo(31.5f).Within(3f),
+            Assert.That(result.center.x, Is.Not.EqualTo(35.5f).Within(6f),
                 "2つの四角が1つにつながり、中心が間になっている");
+
+            Object.DestroyImmediate(texture);
+        }
+
+        [Test]
+        public void 間引いてもつながったかたまりは1つとして数える()
+        {
+            // 32画素の四角。間引いても内部でちゃんと1つにつながること
+            var texture = MakeTexture(80, 80, new RectInt(16, 16, 32, 32));
+
+            BlobDetector.Result result =
+                BlobDetector.Detect(texture, Lower, Upper, minArea: 1, step: 4);
+
+            Assert.That(result.found, Is.True, "四角が見つかっていない");
+            Assert.That(result.center.x, Is.EqualTo(31.5f).Within(2f),
+                "1つの四角が分断されている");
+            Assert.That(result.center.y, Is.EqualTo(31.5f).Within(2f),
+                "1つの四角が分断されている");
 
             Object.DestroyImmediate(texture);
         }
