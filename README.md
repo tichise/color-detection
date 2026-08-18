@@ -6,7 +6,13 @@
 
 ## 入れかた
 
-`Packages/manifest.json` に追記します。
+`Packages/manifest.json` に追記します。版はタグで固定します。
+
+```json
+"tokyo.omicro.color-detection": "https://github.com/tichise/color-detection.git#v1.0.0"
+```
+
+このパッケージ自体に手を入れる間は、手元のフォルダを直接見る形に切り替えると楽です。
 
 ```json
 "tokyo.omicro.color-detection": "file:../../color-detection"
