@@ -1,15 +1,16 @@
 # Color Detection
 
-カメラ画像などから、**指定した色の範囲にあたる部分**を取り出すための Unity パッケージです。
+画像から、**指定した色の範囲にあたる部分**を取り出すための Unity パッケージです。
 
-外部ライブラリにも AR Foundation にも依存しません。`Texture2D` を渡せば動きます。
+`MonoBehaviour` を持たない、静的メソッドだけの小さなライブラリです。
+`Texture2D` を渡すと結果が返ります。UI にも AR にも依存しません。
 
 ## 入れかた
 
 `Packages/manifest.json` に追記します。版はタグで固定します。
 
 ```json
-"tokyo.omicro.color-detection": "https://github.com/tichise/color-detection.git#v1.0.0"
+"tokyo.omicro.color-detection": "https://github.com/tichise/color-detection.git#v2.0.0"
 ```
 
 このパッケージ自体に手を入れる間は、手元のフォルダを直接見る形に切り替えると楽です。
@@ -32,9 +33,8 @@
 |---|---|
 | `BlobDetector` | 色の範囲で画像を塗り分け、つながった一番大きなかたまりとその輪郭を返す |
 | `ImageAdjuster` | 画像の明るさと彩度を変える |
-| `AdjustAspectRatioOfAspectRatioFitter` | 表示の縦横比を、映している画像に合わせる |
 
-名前空間はすべて `Tichise.OpenCV` です。
+名前空間はどちらも `Omicro.ColorDetection` です。
 
 ---
 
@@ -46,7 +46,7 @@
 ### いちばん短い使い方
 
 ```csharp
-using Tichise.OpenCV;
+using Omicro.ColorDetection;
 using UnityEngine;
 
 // 青色を探す。HSVの目盛りは H:0-179 S:0-255 V:0-255
@@ -148,7 +148,7 @@ BlobDetector.RgbToHsv(color, out float h, out float s, out float v);
 画像の明るさと彩度を変えた**新しい画像**を作ります。元の画像は書き換えません。
 
 ```csharp
-using Tichise.OpenCV;
+using Omicro.ColorDetection;
 
 // 明るさ0.5（半分の明るさ）、彩度はそのまま
 Texture2D adjusted = ImageAdjuster.Adjust(source, brightness: 0.5f,
@@ -197,13 +197,6 @@ if (!Mathf.Approximately(brightness, 1f) || !Mathf.Approximately(saturation, 0f)
     target = _adjusted;
 }
 ```
-
----
-
-## AdjustAspectRatioOfAspectRatioFitter
-
-uGUI の `AspectRatioFitter` と組み合わせて使います。映している画像の縦横比を表示側へ反映し、
-画像の大きさが変わっても表示が引き伸ばされたままにならないようにします。
 
 ---
 

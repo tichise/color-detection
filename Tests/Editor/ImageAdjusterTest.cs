@@ -1,8 +1,7 @@
 using NUnit.Framework;
-using Tichise.OpenCV;
 using UnityEngine;
 
-namespace Tichise.ColorDetection.Tests
+namespace Omicro.ColorDetection.Tests
 {
     /// <summary>
     /// 明るさと彩度を調整する処理(ImageAdjuster)のテスト。

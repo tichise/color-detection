@@ -1,6 +1,6 @@
 {
-    "name": "ColorDetection",
-    "rootNamespace": "",
+    "name": "Omicro.ColorDetection",
+    "rootNamespace": "Omicro.ColorDetection",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

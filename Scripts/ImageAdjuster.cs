@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Tichise.OpenCV
+namespace Omicro.ColorDetection
 {
     /// <summary>
     /// 画像の明るさと彩度を調整する。OpenCVを使わずC#だけで行う。

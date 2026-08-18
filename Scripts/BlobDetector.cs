@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Tichise.OpenCV
+namespace Omicro.ColorDetection
 {
     /// <summary>
     /// 指定した色の範囲に入る画素のかたまり(ブロブ)を1つ見つける。

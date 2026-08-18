@@ -1,8 +1,8 @@
 {
-    "name": "ColorDetection.Tests",
-    "rootNamespace": "",
+    "name": "Omicro.ColorDetection.Tests",
+    "rootNamespace": "Omicro.ColorDetection.Tests",
     "references": [
-        "ColorDetection",
+        "Omicro.ColorDetection",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

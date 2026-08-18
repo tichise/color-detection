@@ -1,8 +1,7 @@
 using NUnit.Framework;
-using Tichise.OpenCV;
 using UnityEngine;
 
-namespace Tichise.ColorDetection.Tests
+namespace Omicro.ColorDetection.Tests
 {
     /// <summary>
     /// 色のかたまりを見つける処理(BlobDetector)のテスト。
